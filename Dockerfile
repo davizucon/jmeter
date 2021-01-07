@@ -1,4 +1,5 @@
 FROM openjdk:8u212-jdk-alpine3.9
+LABEL maintainer="emmanuel.gaillardon@orange.fr"
 LABEL maintainer="davi.zucon@gmail.com"
 STOPSIGNAL SIGKILL
 
@@ -33,18 +34,19 @@ RUN cd /tmp/ \
  && jmeter --version \
  && rm -fr /tmp/*
 
+RUN curl --location --silent --show-error --output /opt/alpn-boot-${ALPN_VERSION}.jar ${MVN_SEARCH}org/mortbay/jetty/alpn/alpn-boot/${ALPN_VERSION}/alpn-boot-${ALPN_VERSION}.jar \
+ && curl --location --silent --show-error --output  ${JMETER_HOME}/lib/cmdrunner-2.2.jar ${MVN_SEARCH}kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar \
+ && curl --location --silent --show-error --output  ${JMETER_HOME}/lib/ext/jmeter-plugins-manager-1.6.jar ${MVN_SEARCH}kg/apc/jmeter-plugins-manager/1.6/jmeter-plugins-manager-1.6.jar
 
-RUN curl --location --silent --show-error --output /opt/alpn-boot-${ALPN_VERSION}.jar ${MVN_SEARCH}org/mortbay/jetty/alpn/alpn-boot/${ALPN_VERSION}/alpn-boot-${ALPN_VERSION}.jar
-RUN curl --location --silent --show-error --output  ${JMETER_HOME}/lib/cmdrunner-2.2.jar ${MVN_SEARCH}kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
-RUN curl --location --silent --show-error --output  ${JMETER_HOME}/lib/ext/jmeter-plugins-manager-1.6.jar ${MVN_SEARCH}kg/apc/jmeter-plugins-manager/1.6/jmeter-plugins-manager-1.6.jar
-
-RUN cd $JMETER_HOME && java -cp lib/ext/jmeter-plugins-manager-1.6.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
-RUN chmod +x ${JMETER_HOME}/bin/*.sh
+RUN cd $JMETER_HOME && java -cp lib/ext/jmeter-plugins-manager-1.6.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
+ && chmod +x ${JMETER_HOME}/bin/*.sh
 
 RUN ${JMETER_HOME}/bin/PluginsManagerCMD.sh install jpgc-graphs-basic,bzm-http2,jpgc-casutg,jpgc-plugins-manager,bzm-random-csv,jmeter-core,jmeter-ftp,jmeter-http,jmeter-jdbc,jmeter-jms,jmeter-junit,jmeter-java,jmeter-ldap,jmeter-mail,jmeter-mongodb,jmeter-native,jmeter-tcp,jmeter-components
 RUN rm -fr /tmp/*
+
 # Required for HTTP2 plugins
 ENV JVM_ARGS -Xbootclasspath/p:/opt/alpn-boot-${ALPN_VERSION}.jar
 WORKDIR /jmeter
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["jmeter", "--?"]
+
