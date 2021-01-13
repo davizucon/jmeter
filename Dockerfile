@@ -1,5 +1,5 @@
-FROM openjdk:8u212-jdk-alpine3.9
-LABEL maintainer="emmanuel.gaillardon@orange.fr"
+FROM doptopenjdk/openjdk8:jdk8u252-b09-alpine
+#Original:  maintainer="emmanuel.gaillardon@orange.fr", now archived repo.
 LABEL maintainer="davi.zucon@gmail.com"
 STOPSIGNAL SIGKILL
 
