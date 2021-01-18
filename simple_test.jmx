@@ -26,6 +26,12 @@
             <stringProp name="Argument.desc">number of concurrent threads</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="DURATION" elementType="Argument">
+            <stringProp name="Argument.name">DURATION</stringProp>
+            <stringProp name="Argument.value">${__P(DURATION,60)}</stringProp>
+            <stringProp name="Argument.desc">number of test&apos;s duration</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
           <elementProp name="TARGET_HOST" elementType="Argument">
             <stringProp name="Argument.name">TARGET_HOST</stringProp>
             <stringProp name="Argument.value">${__P(TARGET_HOST,localhost)}</stringProp>
@@ -75,10 +81,10 @@
               <stringProp name="1472989529">${__P(RPS,10)}</stringProp>
               <stringProp name="1567">10</stringProp>
             </collectionProp>
-            <collectionProp name="1458730660">
+            <collectionProp name="2036882486">
               <stringProp name="1472989529">${__P(RPS,10)}</stringProp>
               <stringProp name="1472989529">${__P(RPS,10)}</stringProp>
-              <stringProp name="60">60</stringProp>
+              <stringProp name="578240535">${__P(DURATION,60)}</stringProp>
             </collectionProp>
             <collectionProp name="-407367307">
               <stringProp name="1472989529">${__P(RPS,10)}</stringProp>

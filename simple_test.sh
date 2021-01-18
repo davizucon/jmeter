@@ -11,8 +11,9 @@ usage() {
     echo
     echo "Options:"
     echo "  -h, --help  show Usage"
-    echo "  -n          number of requests per second(default 10)"
-    echo "  -c          number of threads(default 10)"
+    echo "  -n NUM      number of requests per second(default 10)"
+    echo "  -c NUM      number of threads(default 10)"
+    echo "  -d NUM      number of test's duration(default 60 secounds)"
     echo "  "
 }
 
@@ -42,6 +43,14 @@ parse_options() {
                     exit 1
                 fi
                 THREADS=$2
+                shift 2
+                ;;
+            -d)
+                if [ -z "$2" ] || [ `echo $2 | grep '^-'` ]; then
+                    echo "$PROG: option requires an argument -- $1" 1>&2
+                    exit 1
+                fi
+                DURATION=$2
                 shift 2
                 ;;
             -*)
@@ -86,5 +95,5 @@ parse_url "$URL"
 rm -rf ${RESULTS_FILE} ${REPORT_DIR} jmeter.log
 mkdir -p ${REPORT_DIR}
 
-jmeter -JRPS="${RPS}" -JTHREADS="${THREADS}" -JTARGET_HOST="${TARGET_HOST}" -JTARGET_PROTOCOL="${TARGET_PROTOCOL}" -JTARGET_PORT="${TARGET_PORT}" -JTARGET_PATH="${TARGET_PATH}" \
+jmeter -JRPS="${RPS}" -JTHREADS="${THREADS}" -JDURATION="${DURATION}" -JTARGET_HOST="${TARGET_HOST}" -JTARGET_PROTOCOL="${TARGET_PROTOCOL}" -JTARGET_PORT="${TARGET_PORT}" -JTARGET_PATH="${TARGET_PATH}" \
     -n -t ${TEST_PLAN} -l ${RESULTS_FILE} -e -o ${REPORT_DIR}
