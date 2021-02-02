@@ -4,7 +4,7 @@ LABEL maintainer="davi.zucon@gmail.com"
 STOPSIGNAL SIGKILL
 
 ENV MIRROR https://downloads.apache.org//jmeter/binaries/
-ENV JMETER_VERSION 5.4
+ENV JMETER_VERSION 5.4.1
 ENV JMETER_HOME /opt/apache-jmeter-${JMETER_VERSION}
 ENV JMETER_BIN ${JMETER_HOME}/bin
 #Version
